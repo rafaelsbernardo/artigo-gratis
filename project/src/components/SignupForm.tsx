@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
+import crypto from 'crypto';
 
 const SignupForm = () => {
   const [name, setName] = useState('');
@@ -118,11 +119,38 @@ const SignupForm = () => {
     setReferrer(document.referrer);
   }, []);
 
+  // Função para aplicar SHA256
+  const hashSHA256 = (data) => {
+    return crypto.createHash('sha256').update(data).digest('hex');
+  };
+
+  // Função para preencher campos
+  const preencherCampos = (data, sistemaOperacional, parametrosUTM) => {
+    setLocation(data.city || '');
+    setDevice(sistemaOperacional);
+    setCurrentUrl(parametrosUTM.url_cadastro);
+    setUtmSource(parametrosUTM.utm_source);
+    setUtmMedium(parametrosUTM.utm_medium);
+    setUtmCampaign(parametrosUTM.utm_campaign);
+    setUtmContent(parametrosUTM.utm_content);
+    setUtmTerm(parametrosUTM.utm_term);
+    setCity(data.city || '');
+    setState(data.region || '');
+    setCountry(data.country || '');
+    setReferrer(document.referrer);
+    setUserAgent(navigator.userAgent);
+    setScreenResolution(`${window.screen.width}x${window.screen.height}`);
+    setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     try {
+      const hashedEmail = hashSHA256(email);
+      const hashedPhone = hashSHA256(whatsapp);
+      
       // Preencher os campos ocultos do formulário
       if (document) {
         const formElement = document.getElementById('mauticform_appteste') as HTMLFormElement;
@@ -153,8 +181,8 @@ const SignupForm = () => {
           
           // Preencher valores
           if (nameInput) nameInput.value = name;
-          if (emailInput) emailInput.value = email;
-          if (phoneInput) phoneInput.value = whatsapp;
+          if (emailInput) emailInput.value = hashedEmail;
+          if (phoneInput) phoneInput.value = hashedPhone;
           if (blogWpSelect) blogWpSelect.value = blogWp;
           
           if (utmSourceInput) utmSourceInput.value = utmSource;
@@ -187,8 +215,8 @@ const SignupForm = () => {
                   event_name: 'Lead',
                   event_time: Math.floor(Date.now() / 1000),
                   user_data: {
-                    email: email,
-                    phone: whatsapp
+                    email: hashedEmail,
+                    phone: hashedPhone
                   },
                   custom_data: {
                     content_name: 'signup_free_article',
@@ -210,13 +238,9 @@ const SignupForm = () => {
         }
       }
     } catch (error) {
-      console.error('Erro ao enviar formulário:', error);
+      console.error('Erro ao enviar o formulário:', error);
+    } finally {
       setIsSubmitting(false);
-      toast({
-        title: "Erro ao realizar cadastro",
-        description: "Por favor, tente novamente.",
-        variant: "destructive"
-      });
     }
   };
 
