@@ -180,9 +180,20 @@ const SignupForm = () => {
       const facebookResult = await facebookResponse.json();
       console.log('Facebook response:', facebookResult);
 
-      // Após o envio para o Facebook, enviar o formulário do Mautic
+      // Preencher os campos do formulário do Mautic
       const formElement = document.getElementById('mauticform_appteste') as HTMLFormElement;
       if (formElement) {
+        const nameInput = document.getElementById('mauticform_input_appteste_nome') as HTMLTextAreaElement;
+        const emailInput = document.getElementById('mauticform_input_appteste_email') as HTMLInputElement;
+        const phoneInput = document.getElementById('mauticform_input_appteste_telefone') as HTMLTextAreaElement;
+        const blogWpSelect = document.getElementById('mauticform_input_appteste_app_blogwp') as HTMLSelectElement;
+        
+        if (nameInput) nameInput.value = name;
+        if (emailInput) emailInput.value = email;
+        if (phoneInput) phoneInput.value = whatsapp;
+        if (blogWpSelect) blogWpSelect.value = blogWp;
+
+        // Enviar o formulário do Mautic
         formElement.submit();
       }
     } catch (error) {
