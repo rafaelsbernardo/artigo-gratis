@@ -151,91 +151,39 @@ const SignupForm = () => {
       const hashedEmail = hashSHA256(email);
       const hashedPhone = hashSHA256(whatsapp);
       
-      // Preencher os campos ocultos do formulário
-      if (document) {
-        const formElement = document.getElementById('mauticform_appteste') as HTMLFormElement;
-        
-        if (formElement) {
-          // Campos visíveis
-          const nameInput = document.getElementById('mauticform_input_appteste_nome') as HTMLTextAreaElement;
-          const emailInput = document.getElementById('mauticform_input_appteste_email') as HTMLInputElement;
-          const phoneInput = document.getElementById('mauticform_input_appteste_telefone') as HTMLTextAreaElement;
-          const blogWpSelect = document.getElementById('mauticform_input_appteste_app_blogwp') as HTMLSelectElement;
-          
-          // Campos ocultos
-          const utmSourceInput = document.getElementById('mauticform_input_appteste_utm_source') as HTMLTextAreaElement;
-          const utmCampaignInput = document.getElementById('mauticform_input_appteste_utm_campaign') as HTMLTextAreaElement;
-          const utmMediumInput = document.getElementById('mauticform_input_appteste_utm_medium') as HTMLTextAreaElement;
-          const utmContentInput = document.getElementById('mauticform_input_appteste_utm_content') as HTMLTextAreaElement;
-          const utmTermInput = document.getElementById('mauticform_input_appteste_utm_term') as HTMLTextAreaElement;
-          const cityInput = document.getElementById('mauticform_input_appteste_cidade') as HTMLTextAreaElement;
-          const stateInput = document.getElementById('mauticform_input_appteste_estado') as HTMLTextAreaElement;
-          const countryInput = document.getElementById('mauticform_input_appteste_pais') as HTMLTextAreaElement;
-          const deviceInput = document.getElementById('mauticform_input_appteste_dispositivo') as HTMLTextAreaElement;
-          const urlInput = document.getElementById('mauticform_input_appteste_url_pagina') as HTMLTextAreaElement;
-          const planoInput = document.getElementById('mauticform_input_appteste_app_plano') as HTMLInputElement;
-          const referrerInput = document.getElementById('mauticform_input_appteste_referrer') as HTMLTextAreaElement;
-          const userAgentInput = document.getElementById('mauticform_input_appteste_user_agent') as HTMLTextAreaElement;
-          const screenResInput = document.getElementById('mauticform_input_appteste_screen_resolution') as HTMLTextAreaElement;
-          const timezoneInput = document.getElementById('mauticform_input_appteste_timezone') as HTMLTextAreaElement;
-          
-          // Preencher valores
-          if (nameInput) nameInput.value = name;
-          if (emailInput) emailInput.value = hashedEmail;
-          if (phoneInput) phoneInput.value = hashedPhone;
-          if (blogWpSelect) blogWpSelect.value = blogWp;
-          
-          if (utmSourceInput) utmSourceInput.value = utmSource;
-          if (utmCampaignInput) utmCampaignInput.value = utmCampaign;
-          if (utmMediumInput) utmMediumInput.value = utmMedium;
-          if (utmContentInput) utmContentInput.value = utmContent;
-          if (utmTermInput) utmTermInput.value = utmTerm;
-          if (cityInput) cityInput.value = city;
-          if (stateInput) stateInput.value = state;
-          if (countryInput) countryInput.value = country;
-          if (deviceInput) deviceInput.value = device;
-          if (urlInput) urlInput.value = currentUrl;
-          if (planoInput) planoInput.value = 'https://app.automatikblog.com/testegratis';
-          if (referrerInput) referrerInput.value = referrer;
-          if (userAgentInput) userAgentInput.value = userAgent;
-          if (screenResInput) screenResInput.value = screenResolution;
-          if (timezoneInput) timezoneInput.value = timeZone;
-          
-          // Verificar se o usuário marcou 'Sim'
-          if (blogWp === 'Sim') {
-            // Enviar dados para o Facebook
-            const response = await fetch('https://graph.facebook.com/v12.0/963125738869246/events', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer EAATN5jopOBcBO7etEK8hDpFkLdgDBhzMYH226HMZCVMeSZC6YtB7QoYP9iZBBHz7GILzpo6tMHhPSK351VpZCsqLS1PSzHjH508nGJmNFitLXobbZCjoZAn4z30UKvdz672qCDRJcnZCZCrtIAOVwLwjYUKBAEaRuogPmKdZCmcflrlfM52yAvhuIIWqxHBPYToABMgZDZD'
-              },
-              body: JSON.stringify({
-                data: [{
-                  event_name: 'Lead',
-                  event_time: Math.floor(Date.now() / 1000),
-                  user_data: {
-                    email: hashedEmail,
-                    phone: hashedPhone
-                  },
-                  custom_data: {
-                    content_name: 'signup_free_article',
-                    content_category: 'Article Generation',
-                    value: 0.00,
-                    currency: 'BRL',
-                    status: 'complete',
-                    lead_type: 'Free Trial'
-                  }
-                }]
-              })
-            });
-            const result = await response.json();
-            console.log('Facebook response:', result);
-          }
-          
-          // Enviar o formulário
-          formElement.submit();
-        }
+      // Enviar dados para o Facebook
+      const facebookResponse = await fetch('https://graph.facebook.com/v12.0/963125738869246/events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer EAATN5jopOBcBO7etEK8hDpFkLdgDBhzMYH226HMZCVMeSZC6YtB7QoYP9iZBBHz7GILzpo6tMHhPSK351VpZCsqLS1PSzHjH508nGJmNFitLXobbZCjoZAn4z30UKvdz672qCDRJcnZCZCrtIAOVwLwjYUKBAEaRuogPmKdZCmcflrlfM52yAvhuIIWqxHBPYToABMgZDZD'
+        },
+        body: JSON.stringify({
+          data: [{
+            event_name: 'Lead',
+            event_time: Math.floor(Date.now() / 1000),
+            user_data: {
+              email: hashedEmail,
+              phone: hashedPhone
+            },
+            custom_data: {
+              content_name: 'signup_free_article',
+              content_category: 'Article Generation',
+              value: 0.00,
+              currency: 'BRL',
+              status: 'complete',
+              lead_type: 'Free Trial'
+            }
+          }]
+        })
+      });
+      const facebookResult = await facebookResponse.json();
+      console.log('Facebook response:', facebookResult);
+
+      // Após o envio para o Facebook, enviar o formulário do Mautic
+      const formElement = document.getElementById('mauticform_appteste') as HTMLFormElement;
+      if (formElement) {
+        formElement.submit();
       }
     } catch (error) {
       console.error('Erro ao enviar o formulário:', error);
