@@ -189,11 +189,31 @@ const SignupForm = () => {
         const emailInput = document.getElementById('mauticform_input_appteste_email') as HTMLInputElement;
         const phoneInput = document.getElementById('mauticform_input_appteste_telefone') as HTMLTextAreaElement;
         const blogWpSelect = document.getElementById('mauticform_input_appteste_app_blogwp') as HTMLSelectElement;
-        
+        const utmSourceInput = document.getElementById('mauticform_input_appteste_utm_source') as HTMLTextAreaElement;
+        const utmMediumInput = document.getElementById('mauticform_input_appteste_utm_medium') as HTMLTextAreaElement;
+        const utmCampaignInput = document.getElementById('mauticform_input_appteste_utm_campaign') as HTMLTextAreaElement;
+        const utmContentInput = document.getElementById('mauticform_input_appteste_utm_content') as HTMLTextAreaElement;
+        const utmTermInput = document.getElementById('mauticform_input_appteste_utm_term') as HTMLTextAreaElement;
+        const cityInput = document.getElementById('mauticform_input_appteste_cidade') as HTMLTextAreaElement;
+        const stateInput = document.getElementById('mauticform_input_appteste_estado') as HTMLTextAreaElement;
+        const countryInput = document.getElementById('mauticform_input_appteste_pais') as HTMLTextAreaElement;
+        const deviceInput = document.getElementById('mauticform_input_appteste_dispositivo') as HTMLTextAreaElement;
+        const urlInput = document.getElementById('mauticform_input_appteste_url_pagina') as HTMLTextAreaElement;
+
         if (nameInput) nameInput.value = name;
         if (emailInput) emailInput.value = email;
         if (phoneInput) phoneInput.value = whatsapp;
         if (blogWpSelect) blogWpSelect.value = blogWp;
+        if (utmSourceInput) utmSourceInput.value = utmSource;
+        if (utmMediumInput) utmMediumInput.value = utmMedium;
+        if (utmCampaignInput) utmCampaignInput.value = utmCampaign;
+        if (utmContentInput) utmContentInput.value = utmContent;
+        if (utmTermInput) utmTermInput.value = utmTerm;
+        if (cityInput) cityInput.value = city;
+        if (stateInput) stateInput.value = state;
+        if (countryInput) countryInput.value = country;
+        if (deviceInput) deviceInput.value = device;
+        if (urlInput) urlInput.value = currentUrl;
 
         // Enviar o formulário do Mautic
         formElement.submit();
