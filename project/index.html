@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Automatik Blog - Artigos Otimizados em Minutos</title>
+    <meta name="description" content="Gere artigos otimizados para SEO em minutos com o Automatik Blog. Experimente gratuitamente e receba no WhatsApp." />
+    <meta name="author" content="Automatik Blog" />
+
+    <meta property="og:title" content="Automatik Blog - Artigos Otimizados em Minutos" />
+    <meta property="og:description" content="Gere artigos otimizados para SEO em minutos com o Automatik Blog. Experimente gratuitamente e receba no WhatsApp." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@automatikblog" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
+    <!-- Meta Pixel -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '963125738869246');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel -->
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Meta Pixel Noscript -->
+    <noscript>
+      <img height="1" width="1" style="display:none" 
+      src="https://www.facebook.com/tr?id=963125738869246&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Meta Pixel Noscript -->
+
+    <script type="text/javascript">
+        /* Mautic Form Script */
+        if (typeof MauticSDKLoaded == 'undefined') {
+            var MauticSDKLoaded = true;
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://mautic.automatiklabs.com/media/js/mautic-form.js?ve1eb61ac';
+            script.async = true;
+            script.onload = function() {
+                MauticSDK.onLoad();
+            };
+            head.appendChild(script);
+            var MauticDomain = 'https://mautic.automatiklabs.com/';
+            var MauticLang = {
+                'submittingMessage': "Concluindo inscrição..."
+            }
+
+            // Preload Mautic script
+            var link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'script';
+            link.href = 'https://mautic.automatiklabs.com/media/js/mautic-form.js?ve1eb61ac';
+            document.head.appendChild(link);
+        } else if (typeof MauticSDK != 'undefined') {
+            MauticSDK.onLoad();
+        }
+
+        // Função para obter dados de localização
+        function obterLocalizacao() {
+            return fetch("https://ipinfo.io/json")
+                .then(response => response.json())
+                .catch(error => {
+                    console.error('Error fetching location data:', error);
+                    return {}; // Retorna objeto vazio em caso de erro
+                });
+        }
+
+        // Função para detectar o sistema operacional
+        function detectarSistemaOperacional() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (/windows phone/i.test(userAgent)) {
+                return "Windows Phone";
+            }
+            if (/win/i.test(userAgent)) {
+                return "Windows";
+            }
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return "iOS";
+            }
+            if (/macintosh/i.test(userAgent)) {
+                return "Mac OS";
+            }
+            if (/linux/i.test(userAgent)) {
+                return "Linux";
+            }
+            return "Desconhecido";
+        }
+
+        // Função para obter parâmetros UTM da URL
+        function obterParametrosUTM() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                utm_campaign: urlParams.get('utm_campaign') || '',
+                utm_source: urlParams.get('utm_source') || '',
+                utm_medium: urlParams.get('utm_medium') || '',
+                utm_content: urlParams.get('utm_content') || '',
+                utm_term: urlParams.get('utm_term') || '',
+                utm_ids: urlParams.get('utm_ids') || '',
+                url_cadastro: window.location.href
+            };
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("#mauticform_appteste");
+
+            // Obter localização e preencher campos
+            const parametrosUTM = obterParametrosUTM();
+            const sistemaOperacional = detectarSistemaOperacional();
+
+            obterLocalizacao().then(data => {
+                preencherCampos(data, sistemaOperacional, parametrosUTM);
+            }).catch(() => {
+                // Em caso de erro, ainda configura com valores padrão
+                preencherCampos({}, sistemaOperacional, parametrosUTM);
+            });
+
+            // Garantir que os campos estão preenchidos antes do envio do formulário
+            form.addEventListener("submit", function (event) {
+                // Campos já estão populados
+            });
+        });
+    </script>
+  </body>
+</html>
