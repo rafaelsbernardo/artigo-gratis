@@ -188,8 +188,7 @@ const SignupForm = () => {
                   event_time: Math.floor(Date.now() / 1000),
                   user_data: {
                     email: email,
-                    phone: whatsapp,
-                    name: name
+                    phone: whatsapp
                   },
                   custom_data: {
                     content_name: 'signup_free_article',
