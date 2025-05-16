@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
-import crypto from 'crypto';
+import CryptoJS from 'crypto-js';
 
 const SignupForm = () => {
   const [name, setName] = useState('');
@@ -119,9 +119,9 @@ const SignupForm = () => {
     setReferrer(document.referrer);
   }, []);
 
-  // Função para aplicar SHA256
+  // Função para aplicar SHA256 usando crypto-js
   const hashSHA256 = (data) => {
-    return crypto.createHash('sha256').update(data).digest('hex');
+    return CryptoJS.SHA256(data).toString(CryptoJS.enc.Hex);
   };
 
   // Função para preencher campos
