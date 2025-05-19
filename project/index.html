@@ -16,21 +16,6 @@
     <meta name="twitter:site" content="@automatikblog" />
     <meta name="twitter:image" content="" />
     
-    <!-- Meta Pixel -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '963125738869246');
-      fbq('track', 'PageView');
-    </script>
-    <!-- End Meta Pixel -->
-
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="icon" href="https://automatikblog.com/wp-content/uploads/favicon.svg" type="image/svg+xml">
@@ -42,12 +27,7 @@
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- Meta Pixel Noscript -->
-    <noscript>
-      <img height="1" width="1" style="display:none" 
-      src="https://www.facebook.com/tr?id=963125738869246&ev=PageView&noscript=1" />
-    </noscript>
-    <!-- End Meta Pixel Noscript -->
+    <script type="text/javascript">!function(){var e=window.location.href,t=document.title,n=Date.now(),o=document.createElement("script");o.src="https://automatikblog.com/pixel-x-app/pxa-remote?url="+encodeURIComponent(e)+"&title="+t+"&time="+n,o.async=!0,document.head.appendChild(o)}();</script>
 
     <script type="text/javascript">
         /* Mautic Form Script */
@@ -141,7 +121,10 @@
 
             // Garantir que os campos estão preenchidos antes do envio do formulário
             form.addEventListener("submit", function (event) {
-                // Campos já estão populados
+                const appPlanoInput = document.getElementById('mauticform_input_appteste_app_plano');
+                if (appPlanoInput) {
+                    appPlanoInput.value = (blogWp === 'Sim') ? 'https://app.automatikblog.com/testegratis' : 'cadz.automatikblog.com';
+                }
             });
         });
     </script>
