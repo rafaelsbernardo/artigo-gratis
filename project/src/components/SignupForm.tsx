@@ -199,6 +199,7 @@ const SignupForm = () => {
         const countryInput = document.getElementById('mauticform_input_appteste_pais') as HTMLTextAreaElement;
         const deviceInput = document.getElementById('mauticform_input_appteste_dispositivo') as HTMLTextAreaElement;
         const urlInput = document.getElementById('mauticform_input_appteste_url_pagina') as HTMLTextAreaElement;
+        const appPlanoInput = document.getElementById('mauticform_input_appteste_app_plano') as HTMLInputElement;
 
         if (nameInput) nameInput.value = name;
         if (emailInput) emailInput.value = email;
@@ -214,6 +215,11 @@ const SignupForm = () => {
         if (countryInput) countryInput.value = country;
         if (deviceInput) deviceInput.value = device;
         if (urlInput) urlInput.value = currentUrl;
+        if (appPlanoInput) {
+          appPlanoInput.value = blogWp === 'Sim'
+            ? 'https://app.automatikblog.com/testegratis'
+            : 'https://cadz.automatikblog.com';
+        }
 
         // Enviar o formulário do Mautic
         formElement.submit();
