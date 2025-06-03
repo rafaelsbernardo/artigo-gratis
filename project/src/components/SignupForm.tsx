@@ -26,6 +26,7 @@ const SignupForm = () => {
   const [userAgent, setUserAgent] = useState('');
   const [screenResolution, setScreenResolution] = useState('');
   const [timeZone, setTimeZone] = useState('');
+  const [clickId, setClickId] = useState('');
   
   // Carrega o script do Mautic
   useEffect(() => {
@@ -94,6 +95,7 @@ const SignupForm = () => {
       setUtmCampaign(urlParams.get('utm_campaign') || '');
       setUtmContent(urlParams.get('utm_content') || '');
       setUtmTerm(urlParams.get('utm_term') || '');
+      setClickId(urlParams.get('clickid') || '');
     };
 
     // Executar funções
@@ -200,6 +202,7 @@ const SignupForm = () => {
         const deviceInput = document.getElementById('mauticform_input_appteste_dispositivo') as HTMLTextAreaElement;
         const urlInput = document.getElementById('mauticform_input_appteste_url_pagina') as HTMLTextAreaElement;
         const appPlanoInput = document.getElementById('mauticform_input_appteste_app_plano') as HTMLInputElement;
+        const clickIdInput = document.getElementById('mauticform_input_appteste_clickid') as HTMLInputElement;
 
         if (nameInput) nameInput.value = name;
         if (emailInput) emailInput.value = email;
@@ -220,6 +223,7 @@ const SignupForm = () => {
             ? 'https://app.automatikblog.com/testegratis'
             : 'https://cadz.automatikblog.com';
         }
+        if (clickIdInput) clickIdInput.value = clickId;
 
         // Enviar o formulário do Mautic
         formElement.submit();
@@ -406,6 +410,9 @@ const SignupForm = () => {
                     </div>
                     <div id="mauticform_appteste_timezone" className="mauticform-row mauticform-text">
                       <textarea id="mauticform_input_appteste_timezone" name="mauticform[timezone]" className="mauticform-textarea"></textarea>
+                    </div>
+                    <div id="mauticform_appteste_clickid" className="mauticform-row mauticform-text">
+                      <input id="mauticform_input_appteste_clickid" name="mauticform[clickid]" value="" className="mauticform-input" type="text" />
                     </div>
                     <div id="mauticform_appteste_submit" className="mauticform-row mauticform-button-wrapper mauticform-field-16">
                       <button type="submit" name="mauticform[submit]" id="mauticform_input_appteste_submit" value="" className="mauticform-button btn btn-default">Enviar</button>
