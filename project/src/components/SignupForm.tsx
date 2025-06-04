@@ -28,6 +28,13 @@ const SignupForm = () => {
   const [timeZone, setTimeZone] = useState('');
   const [clickId, setClickId] = useState('');
   
+  // Função para ler o cookie exatamente como está
+  const getCookieRaw = (name: string) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    return (parts.length === 2) ? parts.pop()?.split(';').shift() : '';
+  };
+
   // Carrega o script do Mautic
   useEffect(() => {
     if (typeof window.MauticSDKLoaded === 'undefined') {
@@ -95,7 +102,7 @@ const SignupForm = () => {
       setUtmCampaign(urlParams.get('utm_campaign') || '');
       setUtmContent(urlParams.get('utm_content') || '');
       setUtmTerm(urlParams.get('utm_term') || '');
-      setClickId(urlParams.get('clickid') || '');
+      setClickId(getCookieRaw('rtkclickid-store') || '');
     };
 
     // Executar funções
@@ -223,7 +230,10 @@ const SignupForm = () => {
             ? 'https://app.automatikblog.com/testegratis'
             : 'https://cadz.automatikblog.com';
         }
-        if (clickIdInput) clickIdInput.value = clickId;
+        if (clickIdInput) {
+          const cookieClickId = getCookieRaw('rtkclickid-store');
+          clickIdInput.value = cookieClickId || clickId;
+        }
 
         // Enviar o formulário do Mautic
         formElement.submit();
