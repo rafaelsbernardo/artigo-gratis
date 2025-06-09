@@ -257,7 +257,7 @@ const SignupForm = () => {
         
         toast({
           title: "Formulário enviado com sucesso!",
-          description: "Em breve você receberá seu artigo no WhatsApp.",
+          description: "Você será redirecionado para a próxima etapa onde poderá informar os detalhes do seu artigo.",
         });
       }
     } catch (error) {
@@ -306,7 +306,7 @@ const SignupForm = () => {
           {formSubmitted ? (
             <div className="text-center py-8">
               <h3 className="text-2xl font-semibold text-green-600 mb-4">Formulário Enviado com Sucesso!</h3>
-              <p className="text-gray-700">Em breve você receberá seu artigo no WhatsApp.</p>
+              <p className="text-gray-700">Você será redirecionado para a próxima etapa onde poderá informar os detalhes do seu artigo.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
