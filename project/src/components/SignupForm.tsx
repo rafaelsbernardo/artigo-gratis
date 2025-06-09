@@ -6,8 +6,9 @@ const SignupForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
-  const [blogWp, setBlogWp] = useState('Não');
+  const [blogWp, setBlogWp] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const { toast } = useToast();
 
   // Para os campos ocultos do Mautic
@@ -154,6 +155,18 @@ const SignupForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Verifica se o formulário já foi enviado
+    const hasSubmitted = localStorage.getItem('formSubmitted');
+    if (hasSubmitted) {
+      toast({
+        title: "Formulário já enviado",
+        description: "Você já enviou o formulário anteriormente.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -237,9 +250,23 @@ const SignupForm = () => {
 
         // Enviar o formulário do Mautic
         formElement.submit();
+        
+        // Marcar o formulário como enviado no localStorage
+        localStorage.setItem('formSubmitted', 'true');
+        setFormSubmitted(true);
+        
+        toast({
+          title: "Formulário enviado com sucesso!",
+          description: "Em breve você receberá seu artigo no WhatsApp.",
+        });
       }
     } catch (error) {
       console.error('Erro ao enviar o formulário:', error);
+      toast({
+        title: "Erro ao enviar formulário",
+        description: "Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -276,80 +303,87 @@ const SignupForm = () => {
             </p>
           </div>
           
-          {/* Formulário visível para o usuário preencher */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                Nome completo
-              </label>
-              <input
-                id="name"
-                placeholder="Digite seu nome"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full border border-gray-300 rounded-md px-3 py-2"
-              />
+          {formSubmitted ? (
+            <div className="text-center py-8">
+              <h3 className="text-2xl font-semibold text-green-600 mb-4">Formulário Enviado com Sucesso!</h3>
+              <p className="text-gray-700">Em breve você receberá seu artigo no WhatsApp.</p>
             </div>
-            
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                E-mail
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="Digite seu melhor e-mail"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full border border-gray-300 rounded-md px-3 py-2"
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="whatsapp" className="block text-sm font-medium text-gray-700 mb-1">
-                WhatsApp
-              </label>
-              <input
-                id="whatsapp"
-                placeholder="(00) 00000-0000"
-                value={whatsapp}
-                onChange={handleWhatsAppChange}
-                required
-                className="w-full border border-gray-300 rounded-md px-3 py-2"
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="blogwp" className="block text-sm font-medium text-gray-700 mb-1">
-                Você tem blog em WordPress?
-              </label>
-              <select 
-                id="blogwp"
-                value={blogWp}
-                onChange={(e) => setBlogWp(e.target.value)}
-                required
-                className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  Nome completo
+                </label>
+                <input
+                  id="name"
+                  placeholder="Digite seu nome"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  E-mail
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Digite seu melhor e-mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="whatsapp" className="block text-sm font-medium text-gray-700 mb-1">
+                  WhatsApp
+                </label>
+                <input
+                  id="whatsapp"
+                  placeholder="(00) 00000-0000"
+                  value={whatsapp}
+                  onChange={handleWhatsAppChange}
+                  required
+                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="blogwp" className="block text-sm font-medium text-gray-700 mb-1">
+                  Você tem blog em WordPress?
+                </label>
+                <select 
+                  id="blogwp"
+                  value={blogWp}
+                  onChange={(e) => setBlogWp(e.target.value)}
+                  required
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
+                >
+                  <option value="">Selecione uma opção</option>
+                  <option value="Sim">Sim</option>
+                  <option value="Não">Não</option>
+                  <option value="interesse em criar">Não, mas pretendo criar</option>
+                </select>
+              </div>
+              
+              <button 
+                type="submit" 
+                className="w-full bg-gradient-to-r from-[#24CCAA] to-[#6D48FF] text-white text-lg py-4 rounded-lg font-medium hover:opacity-90 transition-opacity"
+                disabled={isSubmitting}
               >
-                <option value="Sim">Sim</option>
-                <option value="Não">Não</option>
-                <option value="interesse em criar">Não, mas pretendo criar</option>
-              </select>
-            </div>
-            
-            <button 
-              type="submit" 
-              className="w-full bg-gradient-to-r from-[#24CCAA] to-[#6D48FF] text-white text-lg py-4 rounded-lg font-medium hover:opacity-90 transition-opacity"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Processando..." : "Quero gerar meu artigo grátis"}
-            </button>
-            
-            <p className="text-xs text-gray-500 text-center">
-              Ao clicar no botão acima, você concorda com nossa <a href="https://automatikblog.com/politica-de-privacidade/" target="_blank" rel="noopener noreferrer" className="underline">Política de Privacidade</a> e com o recebimento de comunicações.
-            </p>
-          </form>
+                {isSubmitting ? "Processando..." : "Quero gerar meu artigo grátis"}
+              </button>
+              
+              <p className="text-xs text-gray-500 text-center">
+                Ao clicar no botão acima, você concorda com nossa <a href="https://automatikblog.com/politica-de-privacidade/" target="_blank" rel="noopener noreferrer" className="underline">Política de Privacidade</a> e com o recebimento de comunicações.
+              </p>
+            </form>
+          )}
           
           {/* Formulário do Mautic oculto */}
           <div className="hidden">
