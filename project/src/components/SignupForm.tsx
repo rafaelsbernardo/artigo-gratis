@@ -257,7 +257,8 @@ const SignupForm = () => {
         if (deviceInput) deviceInput.value = device;
         if (urlInput) urlInput.value = currentUrl;
         if (appPlanoInput) {
-          if (blogGeraReceita === 'Não') {
+          const desqualifica = blogGeraReceita === 'Ainda não, mas estou montando a estratégia' || blogGeraReceita === 'Ainda não tenho blog';
+          if (desqualifica) {
             appPlanoInput.value = EBOOK_URL;
           } else {
             appPlanoInput.value = blogWp === 'Sim'
@@ -395,7 +396,7 @@ const SignupForm = () => {
               
               <div>
                 <label htmlFor="blogGeraReceita" className="block text-sm font-medium text-gray-700 mb-1">
-                  Seu blog gera receita?
+                  Você já ganha dinheiro com seu blog ou pretende monetizar?
                 </label>
                 <select 
                   id="blogGeraReceita"
@@ -405,8 +406,10 @@ const SignupForm = () => {
                   className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
                 >
                   <option value="">Selecione uma opção</option>
-                  <option value="Sim">Sim</option>
-                  <option value="Não">Não</option>
+                  <option value="Já ganho atualmente">Já ganho atualmente</option>
+                  <option value="Ainda não, mas estou montando a estratégia">Ainda não, mas estou montando a estratégia</option>
+                  <option value="Tenho blog, mas não pretendo monetizar">Tenho blog, mas não pretendo monetizar</option>
+                  <option value="Ainda não tenho blog">Ainda não tenho blog</option>
                 </select>
               </div>
               
@@ -481,9 +484,11 @@ const SignupForm = () => {
                     </div>
                     <div id="mauticform_appteste_blog_gera_receita" data-validate="blog_gera_receita" data-validation-type="select" className="mauticform-row mauticform-select mauticform-field-16 mauticform-required">
                       <select id="mauticform_input_appteste_blog_gera_receita" name="mauticform[blog_gera_receita]" value="" className="mauticform-selectbox">
-                        <option value=""></option>
-                        <option value="Sim">Sim</option>
-                        <option value="Não">Não</option>
+                        <option value="">Selecione uma opção</option>
+                        <option value="Já ganho atualmente">Já ganho atualmente</option>
+                        <option value="Ainda não, mas estou montando a estratégia">Ainda não, mas estou montando a estratégia</option>
+                        <option value="Tenho blog, mas não pretendo monetizar">Tenho blog, mas não pretendo monetizar</option>
+                        <option value="Ainda não tenho blog">Ainda não tenho blog</option>
                       </select>
                     </div>
                     <div id="mauticform_appteste_app_plano" className="mauticform-row mauticform-text mauticform-field-15">
