@@ -31,6 +31,7 @@ const SignupForm = () => {
   const [clickId, setClickId] = useState('');
   
   const EBOOK_URL = 'https://cadz.automatikblog.com';
+  const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
   // Função para ler o cookie exatamente como está
   const getCookieRaw = (name: string) => {
@@ -132,6 +133,17 @@ const SignupForm = () => {
     setReferrer(document.referrer);
   }, []);
 
+  // Verificar se o formulário foi enviado nos últimos 7 dias
+  useEffect(() => {
+    const lastSubmitted = localStorage.getItem('signupFormSubmittedAt');
+    if (lastSubmitted && Date.now() - Number(lastSubmitted) < ONE_WEEK_MS) {
+      setFormSubmitted(true);
+    } else if (lastSubmitted) {
+      // Limpa registro caso tenha expirado
+      localStorage.removeItem('signupFormSubmittedAt');
+    }
+  }, []);
+
   // Função para aplicar SHA256 usando crypto-js
   const hashSHA256 = (data) => {
     return CryptoJS.SHA256(data).toString(CryptoJS.enc.Hex);
@@ -159,13 +171,15 @@ const SignupForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Verifica se o formulário já foi enviado nesta sessão
-    if (formSubmitted) {
+    // Verifica se o formulário já foi enviado na última semana
+    const lastSubmitted = localStorage.getItem('signupFormSubmittedAt');
+    if (lastSubmitted && Date.now() - Number(lastSubmitted) < ONE_WEEK_MS) {
       toast({
         title: "Formulário já enviado",
-        description: "Você já enviou o formulário nesta sessão.",
+        description: "Você já enviou o formulário nos últimos 7 dias.",
         variant: "destructive",
       });
+      setFormSubmitted(true);
       return;
     }
 
@@ -259,8 +273,9 @@ const SignupForm = () => {
         // Enviar o formulário do Mautic
         formElement.submit();
         
-        // Marcar o formulário como enviado apenas no estado
+        // Marcar o formulário como enviado e registrar timestamp
         setFormSubmitted(true);
+        localStorage.setItem('signupFormSubmittedAt', Date.now().toString());
         
         toast({
           title: "Formulário enviado com sucesso!",
