@@ -7,6 +7,7 @@ const SignupForm = () => {
   const [email, setEmail] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [blogWp, setBlogWp] = useState('');
+  const [blogGeraReceita, setBlogGeraReceita] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { toast } = useToast();
@@ -29,6 +30,8 @@ const SignupForm = () => {
   const [timeZone, setTimeZone] = useState('');
   const [clickId, setClickId] = useState('');
   
+  const EBOOK_URL = 'https://cadz.automatikblog.com';
+
   // Função para ler o cookie exatamente como está
   const getCookieRaw = (name: string) => {
     const value = `; ${document.cookie}`;
@@ -156,12 +159,11 @@ const SignupForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Verifica se o formulário já foi enviado
-    const hasSubmitted = localStorage.getItem('formSubmitted');
-    if (hasSubmitted) {
+    // Verifica se o formulário já foi enviado nesta sessão
+    if (formSubmitted) {
       toast({
         title: "Formulário já enviado",
-        description: "Você já enviou o formulário anteriormente.",
+        description: "Você já enviou o formulário nesta sessão.",
         variant: "destructive",
       });
       return;
@@ -211,6 +213,7 @@ const SignupForm = () => {
         const emailInput = document.getElementById('mauticform_input_appteste_email') as HTMLInputElement;
         const phoneInput = document.getElementById('mauticform_input_appteste_telefone') as HTMLTextAreaElement;
         const blogWpSelect = document.getElementById('mauticform_input_appteste_app_blogwp') as HTMLSelectElement;
+        const blogGeraReceitaSelect = document.getElementById('mauticform_input_appteste_blog_gera_receita') as HTMLSelectElement;
         const utmSourceInput = document.getElementById('mauticform_input_appteste_utm_source') as HTMLTextAreaElement;
         const utmMediumInput = document.getElementById('mauticform_input_appteste_utm_medium') as HTMLTextAreaElement;
         const utmCampaignInput = document.getElementById('mauticform_input_appteste_utm_campaign') as HTMLTextAreaElement;
@@ -228,6 +231,7 @@ const SignupForm = () => {
         if (emailInput) emailInput.value = email;
         if (phoneInput) phoneInput.value = whatsapp;
         if (blogWpSelect) blogWpSelect.value = blogWp;
+        if (blogGeraReceitaSelect) blogGeraReceitaSelect.value = blogGeraReceita;
         if (utmSourceInput) utmSourceInput.value = utmSource;
         if (utmMediumInput) utmMediumInput.value = utmMedium;
         if (utmCampaignInput) utmCampaignInput.value = utmCampaign;
@@ -239,9 +243,13 @@ const SignupForm = () => {
         if (deviceInput) deviceInput.value = device;
         if (urlInput) urlInput.value = currentUrl;
         if (appPlanoInput) {
-          appPlanoInput.value = blogWp === 'Sim'
-            ? 'https://app.automatikblog.com/testegratis'
-            : 'https://cadz.automatikblog.com';
+          if (blogGeraReceita === 'Não') {
+            appPlanoInput.value = EBOOK_URL;
+          } else {
+            appPlanoInput.value = blogWp === 'Sim'
+              ? 'https://app.automatikblog.com/testegratis'
+              : 'https://cadz.automatikblog.com';
+          }
         }
         if (clickIdInput) {
           const cookieClickId = getCookieRaw('rtkclickid-store');
@@ -251,8 +259,7 @@ const SignupForm = () => {
         // Enviar o formulário do Mautic
         formElement.submit();
         
-        // Marcar o formulário como enviado no localStorage
-        localStorage.setItem('formSubmitted', 'true');
+        // Marcar o formulário como enviado apenas no estado
         setFormSubmitted(true);
         
         toast({
@@ -371,6 +378,23 @@ const SignupForm = () => {
                 </select>
               </div>
               
+              <div>
+                <label htmlFor="blogGeraReceita" className="block text-sm font-medium text-gray-700 mb-1">
+                  Seu blog gera receita?
+                </label>
+                <select 
+                  id="blogGeraReceita"
+                  value={blogGeraReceita}
+                  onChange={(e) => setBlogGeraReceita(e.target.value)}
+                  required
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
+                >
+                  <option value="">Selecione uma opção</option>
+                  <option value="Sim">Sim</option>
+                  <option value="Não">Não</option>
+                </select>
+              </div>
+              
               <button 
                 type="submit" 
                 className="w-full bg-gradient-to-r from-[#24CCAA] to-[#6D48FF] text-white text-lg py-4 rounded-lg font-medium hover:opacity-90 transition-opacity"
@@ -438,6 +462,13 @@ const SignupForm = () => {
                         <option value="Sim">Sim</option>
                         <option value="Não">Não</option>
                         <option value="interesse em criar">Não, mas pretendo criar</option>
+                      </select>
+                    </div>
+                    <div id="mauticform_appteste_blog_gera_receita" data-validate="blog_gera_receita" data-validation-type="select" className="mauticform-row mauticform-select mauticform-field-16 mauticform-required">
+                      <select id="mauticform_input_appteste_blog_gera_receita" name="mauticform[blog_gera_receita]" value="" className="mauticform-selectbox">
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
                       </select>
                     </div>
                     <div id="mauticform_appteste_app_plano" className="mauticform-row mauticform-text mauticform-field-15">
