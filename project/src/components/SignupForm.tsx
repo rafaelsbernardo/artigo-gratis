@@ -258,10 +258,13 @@ const SignupForm = () => {
         if (urlInput) urlInput.value = currentUrl;
         if (appPlanoInput) {
           if (blogWp === 'Sim') {
+            // Sempre enviar para teste grátis independente da resposta sobre receita
             appPlanoInput.value = 'https://app.automatikblog.com/testegratis';
           } else {
             const desqualifica = blogGeraReceita === 'Ainda não, mas estou montando a estratégia' || blogGeraReceita === 'Ainda não tenho blog';
-            appPlanoInput.value = desqualifica ? EBOOK_URL : 'https://cadz.automatikblog.com';
+            appPlanoInput.value = desqualifica
+              ? EBOOK_URL // Lead sem monetização ou sem blog → e-book
+              : EBOOK_URL; // Mantém mesmo redirecionamento para e-book/cadastro
           }
         }
         if (clickIdInput) {
