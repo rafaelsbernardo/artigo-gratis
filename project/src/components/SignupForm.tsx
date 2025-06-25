@@ -258,10 +258,9 @@ const SignupForm = () => {
         if (urlInput) urlInput.value = currentUrl;
         if (appPlanoInput) {
           if (blogWp === 'Sim') {
-            // Sempre encaminhar quem já tem blog para o teste grátis
+            // Sempre enviar para o teste grátis independente da receita
             appPlanoInput.value = 'https://app.automatikblog.com/testegratis';
           } else {
-            // Usuários sem blog: verificar se estão desqualificados
             const desqualifica = blogGeraReceita === 'Ainda não, mas estou montando a estratégia' || blogGeraReceita === 'Ainda não tenho blog';
             appPlanoInput.value = desqualifica ? EBOOK_URL : 'https://cadz.automatikblog.com';
           }
