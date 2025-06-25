@@ -258,7 +258,6 @@ const SignupForm = () => {
         if (urlInput) urlInput.value = currentUrl;
         if (appPlanoInput) {
           if (blogWp === 'Sim') {
-            // Sempre enviar para o teste grátis independente da receita
             appPlanoInput.value = 'https://app.automatikblog.com/testegratis';
           } else {
             const desqualifica = blogGeraReceita === 'Ainda não, mas estou montando a estratégia' || blogGeraReceita === 'Ainda não tenho blog';
