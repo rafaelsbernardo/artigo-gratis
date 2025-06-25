@@ -257,13 +257,13 @@ const SignupForm = () => {
         if (deviceInput) deviceInput.value = device;
         if (urlInput) urlInput.value = currentUrl;
         if (appPlanoInput) {
-          const desqualifica = blogGeraReceita === 'Ainda não, mas estou montando a estratégia' || blogGeraReceita === 'Ainda não tenho blog';
-          if (desqualifica) {
-            appPlanoInput.value = EBOOK_URL;
+          if (blogWp === 'Sim') {
+            // Sempre encaminhar quem já tem blog para o teste grátis
+            appPlanoInput.value = 'https://app.automatikblog.com/testegratis';
           } else {
-            appPlanoInput.value = blogWp === 'Sim'
-              ? 'https://app.automatikblog.com/testegratis'
-              : 'https://cadz.automatikblog.com';
+            // Usuários sem blog: verificar se estão desqualificados
+            const desqualifica = blogGeraReceita === 'Ainda não, mas estou montando a estratégia' || blogGeraReceita === 'Ainda não tenho blog';
+            appPlanoInput.value = desqualifica ? EBOOK_URL : 'https://cadz.automatikblog.com';
           }
         }
         if (clickIdInput) {
