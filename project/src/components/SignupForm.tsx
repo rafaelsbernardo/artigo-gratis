@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
-import CryptoJS from 'crypto-js';
 
 const SignupForm = () => {
   const [name, setName] = useState('');
@@ -107,7 +106,7 @@ const SignupForm = () => {
       setUtmCampaign(urlParams.get('utm_campaign') || '');
       setUtmContent(urlParams.get('utm_content') || '');
       setUtmTerm(urlParams.get('utm_term') || '');
-      setClickId(getCookieRaw('rtkclickid-store') || '');
+      setClickId(getCookieRaw('mcclickid-store') || '');
     };
 
     // Executar funções
@@ -143,11 +142,6 @@ const SignupForm = () => {
       localStorage.removeItem('signupFormSubmittedAt');
     }
   }, []);
-
-  // Função para aplicar SHA256 usando crypto-js
-  const hashSHA256 = (data) => {
-    return CryptoJS.SHA256(data).toString(CryptoJS.enc.Hex);
-  };
 
   // Função para preencher campos
   const preencherCampos = (data, sistemaOperacional, parametrosUTM) => {
@@ -186,40 +180,6 @@ const SignupForm = () => {
     setIsSubmitting(true);
     
     try {
-      if (blogWp === 'Sim') {
-        const hashedEmail = hashSHA256(email);
-        const hashedPhone = hashSHA256(whatsapp);
-        
-        // Enviar dados para o Facebook
-        const facebookResponse = await fetch('https://graph.facebook.com/v12.0/963125738869246/events', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer EAATN5jopOBcBO7etEK8hDpFkLdgDBhzMYH226HMZCVMeSZC6YtB7QoYP9iZBBHz7GILzpo6tMHhPSK351VpZCsqLS1PSzHjH508nGJmNFitLXobbZCjoZAn4z30UKvdz672qCDRJcnZCZCrtIAOVwLwjYUKBAEaRuogPmKdZCmcflrlfM52yAvhuIIWqxHBPYToABMgZDZD'
-          },
-          body: JSON.stringify({
-            data: [{
-              event_name: 'Lead',
-              event_time: Math.floor(Date.now() / 1000),
-              user_data: {
-                email: hashedEmail,
-                phone: hashedPhone
-              },
-              custom_data: {
-                content_name: 'signup_free_article',
-                content_category: 'Article Generation',
-                value: 0.00,
-                currency: 'BRL',
-                status: 'complete',
-                lead_type: 'Free Trial'
-              }
-            }]
-          })
-        });
-        const facebookResult = await facebookResponse.json();
-        console.log('Facebook response:', facebookResult);
-      }
-
       // Preencher os campos do formulário do Mautic
       const formElement = document.getElementById('mauticform_appteste') as HTMLFormElement;
       if (formElement) {
@@ -268,7 +228,7 @@ const SignupForm = () => {
           }
         }
         if (clickIdInput) {
-          const cookieClickId = getCookieRaw('rtkclickid-store');
+          const cookieClickId = getCookieRaw('mcclickid-store');
           clickIdInput.value = cookieClickId || clickId;
         }
 
