@@ -7,6 +7,7 @@ const SignupForm = () => {
   const [whatsapp, setWhatsapp] = useState('');
   const [blogWp, setBlogWp] = useState('');
   const [blogGeraReceita, setBlogGeraReceita] = useState('');
+  const [perfil, setPerfil] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { toast } = useToast();
@@ -188,6 +189,7 @@ const SignupForm = () => {
         const phoneInput = document.getElementById('mauticform_input_appteste_telefone') as HTMLTextAreaElement;
         const blogWpSelect = document.getElementById('mauticform_input_appteste_app_blogwp') as HTMLSelectElement;
         const blogGeraReceitaSelect = document.getElementById('mauticform_input_appteste_blog_gera_receita') as HTMLSelectElement;
+        const perfilInput = document.getElementById('mauticform_input_appteste_perfil') as HTMLSelectElement;
         const utmSourceInput = document.getElementById('mauticform_input_appteste_utm_source') as HTMLTextAreaElement;
         const utmMediumInput = document.getElementById('mauticform_input_appteste_utm_medium') as HTMLTextAreaElement;
         const utmCampaignInput = document.getElementById('mauticform_input_appteste_utm_campaign') as HTMLTextAreaElement;
@@ -206,6 +208,7 @@ const SignupForm = () => {
         if (phoneInput) phoneInput.value = whatsapp;
         if (blogWpSelect) blogWpSelect.value = blogWp;
         if (blogGeraReceitaSelect) blogGeraReceitaSelect.value = blogGeraReceita;
+        if (perfilInput) perfilInput.value = perfil;
         if (utmSourceInput) utmSourceInput.value = utmSource;
         if (utmMediumInput) utmMediumInput.value = utmMedium;
         if (utmCampaignInput) utmCampaignInput.value = utmCampaign;
@@ -339,7 +342,7 @@ const SignupForm = () => {
               
               <div>
                 <label htmlFor="blogwp" className="block text-sm font-medium text-gray-700 mb-1">
-                  Você tem blog em WordPress?
+                  Você tem blog?
                 </label>
                 <select 
                   id="blogwp"
@@ -350,6 +353,8 @@ const SignupForm = () => {
                 >
                   <option value="">Selecione uma opção</option>
                   <option value="Sim">Sim</option>
+                  <option value="Tenho no Wix">Tenho no Wix</option>
+                  <option value="Tenho no Blogger">Tenho no Blogger</option>
                   <option value="Não">Não</option>
                   <option value="interesse em criar">Não, mas pretendo criar</option>
                 </select>
@@ -371,6 +376,29 @@ const SignupForm = () => {
                   <option value="Ainda não, mas estou montando a estratégia">Ainda não, mas estou montando a estratégia</option>
                   <option value="Tenho blog, mas não pretendo monetizar">Tenho blog, mas não pretendo monetizar</option>
                   <option value="Ainda não tenho blog">Ainda não tenho blog</option>
+                </select>
+              </div>
+              
+              <div>
+                <label htmlFor="perfil" className="block text-sm font-medium text-gray-700 mb-1">
+                  Qual o seu perfil?
+                </label>
+                <select 
+                  id="perfil"
+                  value={perfil}
+                  onChange={(e) => setPerfil(e.target.value)}
+                  required
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
+                >
+                  <option value="">Selecione uma opção</option>
+                  <option value="Sou dono de negócio">Sou dono de negócio</option>
+                  <option value="Tenho uma agência de marketing">Tenho uma agência de marketing</option>
+                  <option value="Sou especialista em SEO">Sou especialista em SEO</option>
+                  <option value="Sou freelancer">Sou freelancer</option>
+                  <option value="Sou afiliado">Sou afiliado</option>
+                  <option value="Trabalho em agência de marketing">Trabalho em agência de marketing</option>
+                  <option value="Tenho um blog pessoal ou projeto próprio">Tenho um blog pessoal ou projeto próprio</option>
+                  <option value="Tenho um portal de notícias">Tenho um portal de notícias</option>
                 </select>
               </div>
               
@@ -439,6 +467,8 @@ const SignupForm = () => {
                       <select id="mauticform_input_appteste_app_blogwp" name="mauticform[app_blogwp]" value="" className="mauticform-selectbox">
                         <option value=""></option>
                         <option value="Sim">Sim</option>
+                        <option value="Tenho no Wix">Tenho no Wix</option>
+                        <option value="Tenho no Blogger">Tenho no Blogger</option>
                         <option value="Não">Não</option>
                         <option value="interesse em criar">Não, mas pretendo criar</option>
                       </select>
@@ -450,6 +480,19 @@ const SignupForm = () => {
                         <option value="Ainda não, mas estou montando a estratégia">Ainda não, mas estou montando a estratégia</option>
                         <option value="Tenho blog, mas não pretendo monetizar">Tenho blog, mas não pretendo monetizar</option>
                         <option value="Ainda não tenho blog">Ainda não tenho blog</option>
+                      </select>
+                    </div>
+                    <div id="mauticform_appteste_perfil" data-validate="perfil" data-validation-type="select" className="mauticform-row mauticform-select mauticform-field-17 mauticform-required">
+                      <select id="mauticform_input_appteste_perfil" name="mauticform[perfil]" value="" className="mauticform-selectbox">
+                        <option value="">Selecione uma opção</option>
+                        <option value="Sou dono de negócio">Sou dono de negócio</option>
+                        <option value="Tenho uma agência de marketing">Tenho uma agência de marketing</option>
+                        <option value="Sou especialista em SEO">Sou especialista em SEO</option>
+                        <option value="Sou freelancer">Sou freelancer</option>
+                        <option value="Sou afiliado">Sou afiliado</option>
+                        <option value="Trabalho em agência de marketing">Trabalho em agência de marketing</option>
+                        <option value="Tenho um blog pessoal ou projeto próprio">Tenho um blog pessoal ou projeto próprio</option>
+                        <option value="Tenho um portal de notícias">Tenho um portal de notícias</option>
                       </select>
                     </div>
                     <div id="mauticform_appteste_app_plano" className="mauticform-row mauticform-text mauticform-field-15">
