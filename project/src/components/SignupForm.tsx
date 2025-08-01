@@ -6,7 +6,6 @@ const SignupForm = () => {
   const [email, setEmail] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [blogWp, setBlogWp] = useState('');
-  const [blogGeraReceita, setBlogGeraReceita] = useState('');
   const [perfil, setPerfil] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -188,7 +187,6 @@ const SignupForm = () => {
         const emailInput = document.getElementById('mauticform_input_appteste_email') as HTMLInputElement;
         const phoneInput = document.getElementById('mauticform_input_appteste_telefone') as HTMLTextAreaElement;
         const blogWpSelect = document.getElementById('mauticform_input_appteste_app_blogwp') as HTMLSelectElement;
-        const blogGeraReceitaSelect = document.getElementById('mauticform_input_appteste_blog_gera_receita') as HTMLSelectElement;
         const perfilInput = document.getElementById('mauticform_input_appteste_perfil') as HTMLSelectElement;
         const utmSourceInput = document.getElementById('mauticform_input_appteste_utm_source') as HTMLTextAreaElement;
         const utmMediumInput = document.getElementById('mauticform_input_appteste_utm_medium') as HTMLTextAreaElement;
@@ -207,7 +205,6 @@ const SignupForm = () => {
         if (emailInput) emailInput.value = email;
         if (phoneInput) phoneInput.value = whatsapp;
         if (blogWpSelect) blogWpSelect.value = blogWp;
-        if (blogGeraReceitaSelect) blogGeraReceitaSelect.value = blogGeraReceita;
         if (perfilInput) perfilInput.value = perfil;
         if (utmSourceInput) utmSourceInput.value = utmSource;
         if (utmMediumInput) utmMediumInput.value = utmMedium;
@@ -220,15 +217,8 @@ const SignupForm = () => {
         if (deviceInput) deviceInput.value = device;
         if (urlInput) urlInput.value = currentUrl;
         if (appPlanoInput) {
-          if (blogWp === 'Sim') {
-            // Sempre enviar para teste grátis independente da resposta sobre receita
-            appPlanoInput.value = 'https://app.automatikblog.com/testegratis';
-          } else {
-            const desqualifica = blogGeraReceita === 'Ainda não, mas estou montando a estratégia' || blogGeraReceita === 'Ainda não tenho blog';
-            appPlanoInput.value = desqualifica
-              ? EBOOK_URL // Lead sem monetização ou sem blog → e-book
-              : EBOOK_URL; // Mantém mesmo redirecionamento para e-book/cadastro
-          }
+          // Enviar todos para o teste grátis
+          appPlanoInput.value = 'https://app.automatikblog.com/testegratis';
         }
         if (clickIdInput) {
           const cookieClickId = getCookieRaw('mcclickid-store');
@@ -342,7 +332,7 @@ const SignupForm = () => {
               
               <div>
                 <label htmlFor="blogwp" className="block text-sm font-medium text-gray-700 mb-1">
-                  Você tem blog?
+                  Você tem blog em WordPress?
                 </label>
                 <select 
                   id="blogwp"
@@ -357,25 +347,6 @@ const SignupForm = () => {
                   <option value="Tenho no Blogger">Tenho no Blogger</option>
                   <option value="Não">Não</option>
                   <option value="interesse em criar">Não, mas pretendo criar</option>
-                </select>
-              </div>
-              
-              <div>
-                <label htmlFor="blogGeraReceita" className="block text-sm font-medium text-gray-700 mb-1">
-                  Você já ganha dinheiro com seu blog ou pretende monetizar?
-                </label>
-                <select 
-                  id="blogGeraReceita"
-                  value={blogGeraReceita}
-                  onChange={(e) => setBlogGeraReceita(e.target.value)}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
-                >
-                  <option value="">Selecione uma opção</option>
-                  <option value="Já ganho atualmente">Já ganho atualmente</option>
-                  <option value="Ainda não, mas estou montando a estratégia">Ainda não, mas estou montando a estratégia</option>
-                  <option value="Tenho blog, mas não pretendo monetizar">Tenho blog, mas não pretendo monetizar</option>
-                  <option value="Ainda não tenho blog">Ainda não tenho blog</option>
                 </select>
               </div>
               
@@ -471,15 +442,6 @@ const SignupForm = () => {
                         <option value="Tenho no Blogger">Tenho no Blogger</option>
                         <option value="Não">Não</option>
                         <option value="interesse em criar">Não, mas pretendo criar</option>
-                      </select>
-                    </div>
-                    <div id="mauticform_appteste_blog_gera_receita" data-validate="blog_gera_receita" data-validation-type="select" className="mauticform-row mauticform-select mauticform-field-16 mauticform-required">
-                      <select id="mauticform_input_appteste_blog_gera_receita" name="mauticform[blog_gera_receita]" value="" className="mauticform-selectbox">
-                        <option value="">Selecione uma opção</option>
-                        <option value="Já ganho atualmente">Já ganho atualmente</option>
-                        <option value="Ainda não, mas estou montando a estratégia">Ainda não, mas estou montando a estratégia</option>
-                        <option value="Tenho blog, mas não pretendo monetizar">Tenho blog, mas não pretendo monetizar</option>
-                        <option value="Ainda não tenho blog">Ainda não tenho blog</option>
                       </select>
                     </div>
                     <div id="mauticform_appteste_perfil" data-validate="perfil" data-validation-type="select" className="mauticform-row mauticform-select mauticform-field-17 mauticform-required">
